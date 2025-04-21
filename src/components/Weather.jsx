@@ -49,7 +49,9 @@ function Weather() {
                 windSpeed: data.wind.speed,
                 temperature: Math.floor(data.main.temp),
                 location: data.name,
-                icon: icon
+                icon: icon,
+                pressure:data.main.pressure,
+                description:data.weather[0].description
             })
      
         }catch(error){
@@ -69,28 +71,43 @@ function Weather() {
             <input ref={inputRef} type="text" placeholder='Search' />
             <i onClick={()=>search(inputRef.current.value)} class="fa-solid fa-magnifying-glass"></i>
         </div>
-
-        <img src={weatherData.icon} alt="" className='weather-icon' />
+        
+        {weatherData?<>
+            <img src={weatherData.icon} alt="" className='weather-icon' />
       <p className='temperature'>{weatherData.temperature} c</p>
       <p className='location'>{weatherData.location}</p>
+      <p className='description'>{weatherData.description}</p>
 
       <div className="weather-data">
         <div className="col">
-            <i class="fa-solid fa-water"></i>
+        <div>
+        <span>Humidity</span>
+        <i class="fa-solid fa-droplet"></i>
+        <p>{weatherData.humidity} %</p>
+        </div>
+        </div>
+
+        <div className="col">
             <div>
-                <p>{weatherData.humidity} %</p>
-                <span>Humidity</span>
+            <span>Wind Speed</span>
+            <i class="fa-solid fa-wind"></i>
+            <p>{weatherData.windSpeed} km/h</p>
             </div>
         </div>
+
         <div className="col">
-        <i class="fa-solid fa-wind"></i>
+        
             <div>
-                <p>{weatherData.windSpeed} km/h</p>
-                <span>Wind</span>
-            </div>
+            <span>Pressure</span>
+            <i class="fa-solid fa-arrows-up-to-line"></i>
+            <p>{weatherData.pressure} mb</p>
+           </div>
         </div>
         
       </div>
+        </>:<></>}
+
+        
     </div>
   )
 }
